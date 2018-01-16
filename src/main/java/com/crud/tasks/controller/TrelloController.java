@@ -4,6 +4,8 @@ import com.crud.tasks.domain.CreatedTrelloCard;
 import com.crud.tasks.domain.TrelloBoardDto;
 import com.crud.tasks.domain.TrelloCardDto;
 import com.crud.tasks.trello.client.TrelloClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +18,8 @@ import java.util.List;
 @RequestMapping("/v1/trello")
 public class TrelloController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(TrelloClient.class);
+
     @Autowired
     private TrelloClient trelloClient;
 
@@ -26,22 +30,20 @@ public class TrelloController {
 
         trelloBoards
                 .stream()
-                .filter(f -> f.getId() != null && f.getName() != null)
-                .filter(f -> f.getName().contains("Kodilla"))
-                .forEach(trelloBoardDto -> System.out.println(trelloBoardDto.getId() + " " + trelloBoardDto.getName()));
-
-        System.out.println();
+                .filter(f -> f.getId() != null)
+                .filter(f -> f.getName() != null && f.getName().contains("Kodilla"))
+                .forEach(trelloBoardDto -> LOGGER.info(trelloBoardDto.getId() + " " + trelloBoardDto.getName()));
 
         trelloBoards.forEach(trelloBoardDto -> {
 
-            System.out.println(trelloBoardDto.getName() + " - " + trelloBoardDto.getId());
+            LOGGER.info(trelloBoardDto.getName() + " - " + trelloBoardDto.getId());
 
-            System.out.println("This board contains lists: ");
+            LOGGER.info("This board contains lists: ");
 
             trelloBoardDto
                     .getLists()
                     .forEach(trelloList ->
-                            System.out.println(trelloList.getName() + " - " + trelloList.getId() + " - " + trelloList.isClosed()));
+                            LOGGER.info(trelloList.getName() + " - " + trelloList.getId() + " - " + trelloList.isClosed()));
         });
     }
 
