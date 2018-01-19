@@ -1,0 +1,4 @@
+FROM CLASS CreatedTrelloCard
+
+    //@JsonProperty("badges")
+    //private Badges badges;
