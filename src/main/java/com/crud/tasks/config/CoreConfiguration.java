@@ -37,5 +37,6 @@ public class CoreConfiguration implements WebMvcConfigurer {
                 .apis(RequestHandlerSelectors.basePackage("com.crud.tasks.controller"))
                 .paths(PathSelectors.any())
                 .build();
+
     }
 }
